@@ -1,12 +1,17 @@
 package com.example.springboot_hotel_booking_api.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -25,6 +30,10 @@ public class UserEntity implements Serializable{
 	private String name;
 	private String email;
 	private String password;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "client")
+	private Set<BookingEntity> bookings = new HashSet<>();
 	
 	//Default constructor required by JPA.
 	public UserEntity() {
@@ -71,6 +80,10 @@ public class UserEntity implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public Set<BookingEntity> getBookings() {
+		return bookings;
 	}
 
 	/**
