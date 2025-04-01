@@ -36,19 +36,25 @@ public class BookingEntity implements Serializable{
 	private BookingStatus status;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id") // Foreign key linking the booking to a user
+	@JoinColumn(name = "user_id") // Foreign key linking the booking to an user
 	private UserEntity client;
+	
+	@ManyToOne
+	@JoinColumn(name = "room_id") // Foreign key linking the booking to a room.
+	private RoomEntity room;
 	
 	public BookingEntity() {
 	}
 
-	public BookingEntity(Long id, Instant checkIn, Instant checkOut, BookingStatus status, UserEntity client) {
+	public BookingEntity(Long id, Instant checkIn, Instant checkOut, BookingStatus status, UserEntity client,
+			RoomEntity room) {
 		super();
 		this.id = id;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
 		this.status = status;
 		this.client = client;
+		this.room = room;
 	}
 
 	public Long getId() {
@@ -89,6 +95,14 @@ public class BookingEntity implements Serializable{
 
 	public void setClient(UserEntity client) {
 		this.client = client;
+	}
+	
+	public RoomEntity getRoom() {
+		return room;
+	}
+
+	public void setRoom(RoomEntity room) {
+		this.room = room;
 	}
 
 	@Override

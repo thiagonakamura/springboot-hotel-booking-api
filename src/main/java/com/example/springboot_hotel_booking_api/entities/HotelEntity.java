@@ -1,12 +1,15 @@
 package com.example.springboot_hotel_booking_api.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -24,6 +27,9 @@ public class HotelEntity implements Serializable{
 	private String name;
 	private String location;
 	private Double rating;
+	
+	@OneToMany(mappedBy = "hotel")
+	private Set<RoomEntity> rooms = new HashSet<>();
 	
 	public HotelEntity() {
 	}
@@ -66,6 +72,10 @@ public class HotelEntity implements Serializable{
 
 	public void setRating(Double rating) {
 		this.rating = rating;
+	}
+
+	public Set<RoomEntity> getRooms() {
+		return rooms;
 	}
 
 	@Override
