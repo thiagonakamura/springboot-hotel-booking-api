@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.example.springboot_hotel_booking_api.entities.BookingEntity;
 import com.example.springboot_hotel_booking_api.entities.HotelEntity;
+import com.example.springboot_hotel_booking_api.entities.RoomEntity;
 import com.example.springboot_hotel_booking_api.entities.UserEntity;
 import com.example.springboot_hotel_booking_api.enums.BookingStatus;
 import com.example.springboot_hotel_booking_api.repositories.BookingRepository;
 import com.example.springboot_hotel_booking_api.repositories.HotelRepository;
+import com.example.springboot_hotel_booking_api.repositories.RoomRepository;
 import com.example.springboot_hotel_booking_api.repositories.UserRepository;
 
 /**
@@ -34,6 +36,9 @@ public class TestConfig implements CommandLineRunner{
 	@Autowired
 	private BookingRepository bookingRepository;
 	
+	@Autowired
+	private RoomRepository roomRepository;
+	
 	//Method executed when the application starts.
 	@Override
 	public void run(String... args) throws Exception {
@@ -48,8 +53,13 @@ public class TestConfig implements CommandLineRunner{
 		
 		hotelRepository.saveAll(Arrays.asList(h1, h2));
 		
-		BookingEntity b1 = new BookingEntity(null, Instant.parse("2025-04-04T15:00:00Z"), Instant.parse("2025-04-10T10:00:00Z"), BookingStatus.CONFIRMED, u2);
-		BookingEntity b2 = new BookingEntity(null, Instant.parse("2025-04-24T15:00:00Z"), Instant.parse("2025-04-26T10:00:00Z"), BookingStatus.PENDING, u1);
+		RoomEntity r1 = new RoomEntity(null, "2 bedrooms", 100.0, h2);
+		RoomEntity r2 = new RoomEntity(null, "1 bedroom", 60.0, h2);
+		
+		roomRepository.saveAll(Arrays.asList(r1, r2));
+		
+		BookingEntity b1 = new BookingEntity(null, Instant.parse("2025-04-04T15:00:00Z"), Instant.parse("2025-04-10T10:00:00Z"), BookingStatus.CONFIRMED, u2, r1);
+		BookingEntity b2 = new BookingEntity(null, Instant.parse("2025-04-24T15:00:00Z"), Instant.parse("2025-04-26T10:00:00Z"), BookingStatus.PENDING, u1, r2);
 		
 		bookingRepository.saveAll(Arrays.asList(b1, b2));
 	}
