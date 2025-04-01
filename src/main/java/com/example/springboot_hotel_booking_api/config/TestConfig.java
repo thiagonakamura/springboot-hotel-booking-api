@@ -7,7 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.example.springboot_hotel_booking_api.entities.HotelEntity;
 import com.example.springboot_hotel_booking_api.entities.UserEntity;
+import com.example.springboot_hotel_booking_api.repositories.HotelRepository;
 import com.example.springboot_hotel_booking_api.repositories.UserRepository;
 
 /**
@@ -22,6 +24,9 @@ public class TestConfig implements CommandLineRunner{
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private HotelRepository hotelRepository;
+	
 	//Method executed when the application starts.
 	@Override
 	public void run(String... args) throws Exception {
@@ -30,6 +35,11 @@ public class TestConfig implements CommandLineRunner{
 		UserEntity u2 = new UserEntity(null, "Cameron Bennet", "cam@email.com", "cam123.");
 		
 		userRepository.saveAll(Arrays.asList(u1, u2));
+		
+		HotelEntity h1 = new HotelEntity(null, "Penny Hotel", "Rua Camila Lourdes, 987", 4.7);
+		HotelEntity h2 = new HotelEntity(null, "Milan Hotel", "Porta Romana 43", 4.9);
+		
+		hotelRepository.saveAll(Arrays.asList(h1, h2));
 	}
 
 }
