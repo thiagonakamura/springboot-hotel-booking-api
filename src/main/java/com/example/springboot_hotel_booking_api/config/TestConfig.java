@@ -1,5 +1,6 @@
 package com.example.springboot_hotel_booking_api.config;
 
+import java.time.Instant;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.example.springboot_hotel_booking_api.entities.BookingEntity;
 import com.example.springboot_hotel_booking_api.entities.HotelEntity;
 import com.example.springboot_hotel_booking_api.entities.UserEntity;
+import com.example.springboot_hotel_booking_api.enums.BookingStatus;
+import com.example.springboot_hotel_booking_api.repositories.BookingRepository;
 import com.example.springboot_hotel_booking_api.repositories.HotelRepository;
 import com.example.springboot_hotel_booking_api.repositories.UserRepository;
 
@@ -27,6 +31,9 @@ public class TestConfig implements CommandLineRunner{
 	@Autowired
 	private HotelRepository hotelRepository;
 	
+	@Autowired
+	private BookingRepository bookingRepository;
+	
 	//Method executed when the application starts.
 	@Override
 	public void run(String... args) throws Exception {
@@ -40,6 +47,11 @@ public class TestConfig implements CommandLineRunner{
 		HotelEntity h2 = new HotelEntity(null, "Milan Hotel", "Porta Romana 43", 4.9);
 		
 		hotelRepository.saveAll(Arrays.asList(h1, h2));
+		
+		BookingEntity b1 = new BookingEntity(null, Instant.parse("2025-04-04T15:00:00Z"), Instant.parse("2025-04-10T10:00:00Z"), BookingStatus.CONFIRMED, u2);
+		BookingEntity b2 = new BookingEntity(null, Instant.parse("2025-04-24T15:00:00Z"), Instant.parse("2025-04-26T10:00:00Z"), BookingStatus.PENDING, u1);
+		
+		bookingRepository.saveAll(Arrays.asList(b1, b2));
 	}
 
 }
