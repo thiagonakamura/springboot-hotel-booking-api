@@ -2,6 +2,9 @@ package com.example.springboot_hotel_booking_api.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import com.example.springboot_hotel_booking_api.enums.BookingStatus;
@@ -108,6 +111,28 @@ public class BookingEntity implements Serializable{
 
 	public void setRoom(RoomEntity room) {
 		this.room = room;
+	}
+	
+	/**
+	 * Calculates the total cost of a booking based on the number of days stayed.
+	 * The total price is determined by multiplying the number of days between 
+	 * check-in and check-out by the room's price per night.
+	 */
+	public double getTotal() {
+		// Convert check-in and check-out timestamps to LocalDate using the system's default time zone
+		LocalDate checkInDate = checkIn.atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate checkOutDate = checkOut.atZone(ZoneId.systemDefault()).toLocalDate();
+		
+		// Calculate the number of days between check-in and check-out
+		long days = ChronoUnit.DAYS.between(checkInDate, checkOutDate);
+		
+		// Validate that the check-out date is after the check-in date
+		if(days <= 0) {
+			throw new IllegalArgumentException("Check-out date must be after check-in.");
+		}
+		
+		// Calculate the total cost based on the number of days and the room's price per night
+		return days * room.getPrice();
 	}
 
 	@Override
